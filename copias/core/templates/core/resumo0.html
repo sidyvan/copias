@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid">
+
+<div class="card" >
+
+    <div class="card-body">
+
+      <form method="POST">{% csrf_token %}
+
+        <div class="row">
+
+          <div class="col-md-5">
+            <input type="date" class="form-control" name="data_inicio">
+          </div>
+          <div class="col-md-5">
+            <input type="date" class="form-control" name="data_final">
+          </div>
+          <div class="col-md-1">
+            <button type = "submit" class="btn btn-primary" >Enviar</button>
+          </div>
+          
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+
+<br>
+
+
+
+
+
+
+<div class="card" >
+
+  <div class="card-body">
+
+    De {{ inicio }} a {{ fim }}
+    <h5 class="card-title">Total Cópias = R$ {{ copias.total_copias }}</h5>
+    <h5 class="card-title">Total Caixa = R$ {{ caixa.total_caixa |floatformat:"2" }}</h5>
+
+  </div>
+</div>
+
+
+<div class="card" >
+  <div class="card-body">
+    <div id="donutchart"></div>
+  </div>
+</div>
+
+<br>
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">#</th>
+    <th scope="col">Data</th>
+    <th scope="col">Qnt</th>
+    <th scope="col">Tipo</th>
+    <th scope="col">Preço</th>
+    <th scope="col"></th>
+  </tr>
+</thead>
+<tbody>
+
+{% for l in lista %}
+  <tr>
+    <th scope="row">{{ l.pk }}</th>
+
+    <td>{{ l.data_hora }}</td>
+    <td>{{ l.quantidade }}</td>
+    <td>{{ l.preco.papel }}</td>
+    <td>R$ {{ l.valor_total }}</td>
+    <td>
+
+  <a href="{% url 'remover_caixa_resumo' l.pk %}"  type="button" class="btn btn-sm btn-default 	fa fa-trash-o"></a>
+
+    </td>
+  </tr>
+
+{% endfor %}
+</tbody>
+</table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if lista.has_previous %}
+            <a href="?page={{ alunos.previous_page_number }}">anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ lista.number }} de {{ lista.paginator.num_pages }}.
+        </span>
+
+        {% if lista.has_next %}
+            <a href="?page={{ lista.next_page_number }}">próxima</a>
+        {% endif %}
+    </span>
+</div>
+
+</div>
+{% endblock %}

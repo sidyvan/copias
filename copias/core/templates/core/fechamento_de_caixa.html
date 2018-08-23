@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="card" >
+
+  <div class="card-body">
+
+    <form method="POST">{% csrf_token %}
+      <div class="row">
+        <div class="col-md-5">
+          <input type="date" class="form-control" name="data_inicio">
+
+        </div>
+        <div class="col-md-5">
+          <input type="date" class="form-control" name="data_final">
+
+        </div>
+        <div class="col-md-1">
+          <input type = "submit" class="btn btn-primary" >
+
+        </div>
+
+
+      </div>
+    </form>
+  </div>
+</div>
+<hr>
+{% for o in obj %}
+  {{ o.preco }}
+{% endfor %}
+<div class="card" >
+
+  <div class="card-body">
+    <h5 class="card-title">Total Cópias = {{ copias.total_copias }}</h5>
+    <h5 class="card-title">Total Caixa =  {{ caixa.total_caixa  }}</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+{% endblock %}

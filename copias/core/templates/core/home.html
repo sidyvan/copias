@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="row">
+  <div class="col-md-4">
+  <form method="POST">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-default">salvar</button>
+  </form>
+    </div>
+  <div class="col-md-8">
+    <br>
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Data</th>
+        <th scope="col">Qnt</th>
+        <th scope="col">Val Un</th>
+        <th scope="col">Total</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for l in lista %}
+      <tr>
+        <th scope="row">{{ l.pk }}</th>
+
+        <td>{{ l.data_hora | naturaltime }}</td>
+        <td>{{ l.quantidade }}</td>
+        <td>{{ l.preco.valor_copia }}</td>
+        <td>{{ l.valor_total }}</td>
+        <td>
+          <a href="{% url 'remover_caixa' l.pk %}"  type="button" class="btn btn-sm btn-default 	fa fa-trash-o"></a>
+          <!-- Button trigger modal -->
+
+
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+{% endblock %}

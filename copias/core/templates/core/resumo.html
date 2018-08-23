@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %}
+{% block content %}
+
+<div class="card" >
+
+    <div class="card-body">
+
+      <form method="POST">{% csrf_token %}
+
+        <div class="row">
+
+          <div class="col-md-5">
+            <input type="date" class="form-control" name="data_inicio">
+          </div>
+          <div class="col-md-5">
+            <input type="date" class="form-control" name="data_final">
+          </div>
+          <div class="col-md-1">
+            <button type = "submit" class="btn btn-primary" >Enviar</button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+{% if inicio and fim %}
+
+  {% if copias.total_copias  %}
+
+  <div class="card">
+    <div class="card-header">
+      Faturamento
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">  Período <b>{{ inicio }}</b> à <b>{{ fim }}</b></li>
+      <li class="list-group-item">Total Cópias <b>
+        {{ copias.total_copias }}</b></li>
+      <li class="list-group-item">Total Caixa = R$ {{ caixa.total_caixa |floatformat:"2" }}</li>
+    </ul>
+  </div>
+
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Data</th>
+      <th scope="col">Qnt</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Preço</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for l in lista %}
+    <tr>
+      <th scope="row">{{ l.pk }}</th>
+
+      <td>{{ l.data_hora }}</td>
+      <td>{{ l.quantidade }}</td>
+      <td>{{ l.preco.papel }}</td>
+      <td>R$ {{ l.valor_total }}</td>
+      <td>
+
+    <a href="{% url 'remover_caixa_resumo' l.pk %}"  type="button" class="btn btn-sm btn-default 	fa fa-trash-o"></a>
+
+      </td>
+    </tr>
+
+  {% endfor %}
+  </tbody>
+  </table>
+
+
+{% else %}
+
+<div class="alert alert-danger" role="alert">
+Não há registros entre <b>{{ inicio }}</b> à <b>{{ fim }}</b></li>!
+</div>
+
+
+{% endif %}
+
+
+{% else %}
+<div class="alert alert-info">
+  Informe um intervalo de datas
+</div>
+
+{% endif %}
+
+{% endblock %}
